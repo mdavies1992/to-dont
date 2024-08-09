@@ -70,4 +70,19 @@ class ToDoList {
       return game.users.get(relevantToDo.userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, update);
     }
 
+    static deleteToDo(toDoId) {
+      const relevantToDo = this.allToDos[toDoId];
+  
+      // Foundry specific syntax required to delete a key from a persisted object in the database
+      const keyDeletion = {
+        [`-=${toDoId}`]: null
+      }
+  
+      // update the database with the updated ToDo list
+      return game.users.get(relevantToDo.userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, keyDeletion);
+    }
+    
+    static updateUserToDos(userId, updateData) {
+      return game.users.get(userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, updateData);
+    }
   }
