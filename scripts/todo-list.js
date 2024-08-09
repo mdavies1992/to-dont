@@ -24,7 +24,7 @@ class ToDoList {
   
   class ToDoListData {
     static getToDosForUser(userId) {
-      return game.users.get(userId)?.getFlag(ToDoList.ID, ToDoList.FLAGS.TODO);
+      return game.users.get(userId)?.getFlag(ToDoList.ID, ToDoList.FLAGS.TODOS);
     }
 
     static createToDo(userId, toDoData) {
@@ -44,4 +44,30 @@ class ToDoList {
       // update the database with the new ToDos
       return game.users.get(userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, newToDos);
     }
+
+    static get allToDos() {
+      const allToDos = game.users.reduce((accumulator, user) => {
+        const userTodos = this.getToDosForUser(user.id);
+  
+        return {
+          ...accumulator,
+          ...userTodos
+        }
+      }, {});
+  
+      return allToDos;
+    }
+
+    static updateToDo(toDoId, updateData) {
+      const relevantToDo = this.allToDos[toDoId];
+  
+      // construct the update to send
+      const update = {
+        [toDoId]: updateData
+      }
+  
+      // update the database with the updated ToDo list
+      return game.users.get(relevantToDo.userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, update);
+    }
+
   }
