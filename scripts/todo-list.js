@@ -9,7 +9,7 @@ console.log('todo-list | Hello World!');
  * @property {string} userId - The user who owns this todo.
  */
 
-
+/* CLASS SETTINGS / STANDARD LANGUAGE */  
 class ToDoList {
     static ID = 'todo-list';
     
@@ -26,7 +26,7 @@ class ToDoList {
     static getToDosForUser(userId) {
       return game.users.get(userId)?.getFlag(ToDoList.ID, ToDoList.FLAGS.TODOS);
     }
-
+    /* CRUD - CREATE */  
     static createToDo(userId, toDoData) {
       // generate a random id for this new ToDo and populate the userId
       const newToDo = {
@@ -35,7 +35,7 @@ class ToDoList {
         id: foundry.utils.randomID(16),
         userId,
       }
-  
+
       // construct the update to insert the new ToDo
       const newToDos = {
         [newToDo.id]: newToDo
@@ -45,6 +45,7 @@ class ToDoList {
       return game.users.get(userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, newToDos);
     }
 
+    /* CRUD - READ */ 
     static get allToDos() {
       const allToDos = game.users.reduce((accumulator, user) => {
         const userTodos = this.getToDosForUser(user.id);
@@ -58,6 +59,7 @@ class ToDoList {
       return allToDos;
     }
 
+    /* CRUD - UPDATE */ 
     static updateToDo(toDoId, updateData) {
       const relevantToDo = this.allToDos[toDoId];
   
@@ -70,6 +72,7 @@ class ToDoList {
       return game.users.get(relevantToDo.userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, update);
     }
 
+    /* CRUD - DELETE */ 
     static deleteToDo(toDoId) {
       const relevantToDo = this.allToDos[toDoId];
   
@@ -81,7 +84,7 @@ class ToDoList {
       // update the database with the updated ToDo list
       return game.users.get(relevantToDo.userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, keyDeletion);
     }
-    
+    /* CRUD+ - UPDATE (ALL) */   
     static updateUserToDos(userId, updateData) {
       return game.users.get(userId)?.setFlag(ToDoList.ID, ToDoList.FLAGS.TODOS, updateData);
     }
