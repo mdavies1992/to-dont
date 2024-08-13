@@ -107,5 +107,27 @@ class ToDoList {
   });
 
   });
+class ToDoListConfig extends FormApplication {
+  static get defaultOptions() {
+    const defaults = super.defaultOptions;
+  
+    const overrides = {
+      height: 'auto',
+      id: 'todo-list',
+      template: ToDoList.TEMPLATES.TODOLIST,
+      title: 'To Do List',
+      userId: game.userId,
+    };
+    
+    const mergedOptions = foundry.utils.mergeObject(defaults, overrides);
+    return mergedOptions;
+  }
+
+  getData(options) {
+    return {
+      todos: ToDoListData.getToDosForUser(options.userId)
+    }
+  }
+}
 
   
