@@ -107,19 +107,23 @@ class ToDoList {
   });
 
   });
+
 class ToDoListConfig extends FormApplication {
   static get defaultOptions() {
     const defaults = super.defaultOptions;
   
     const overrides = {
+      closeOnSubmit: false,
       height: 'auto',
       id: 'todo-list',
+      submitOnChange: true,
       template: ToDoList.TEMPLATES.TODOLIST,
       title: 'To Do List',
       userId: game.userId,
     };
-    
+  
     const mergedOptions = foundry.utils.mergeObject(defaults, overrides);
+    
     return mergedOptions;
   }
 
@@ -129,5 +133,4 @@ class ToDoListConfig extends FormApplication {
     }
   }
 }
-
   
