@@ -13,6 +13,7 @@ console.log('todo-list | Hello World!');
 class ToDoList {
     static ID = 'todo-list';
     
+    
     static FLAGS = {
       TODOS: 'todos'
     }
@@ -20,8 +21,17 @@ class ToDoList {
     static TEMPLATES = {
       TODOLIST: `modules/${this.ID}/templates/todo-list.hbs`
     }
+
+    static initialize() {
+      this.toDoListConfig = new ToDoListConfig();
+    }
+
   }
   
+  Hooks.once('init', () => {
+    ToDoList.initialize();
+  });
+
   class ToDoListData {
     static getToDosForUser(userId) {
       return game.users.get(userId)?.getFlag(ToDoList.ID, ToDoList.FLAGS.TODOS);
@@ -102,8 +112,11 @@ class ToDoList {
     `<button type='button' class='todo-list-icon-button flex0' title='${tooltip}'><i class='fas fa-tasks'></i></button>`
   );
 
+  
   html.on('click', '.todo-list-icon-button', (event) => {
     console.log(true, 'Button Clicked!');
+    const userId = $(event.currentTarget).parents('[data-user-id]')?.data()?.userId;
+    ToDoList.toDoListConfig.render(true, {userId});
   });
 
   });
@@ -132,5 +145,12 @@ class ToDoListConfig extends FormApplication {
       todos: ToDoListData.getToDosForUser(options.userId)
     }
   }
+
+  async _updateObject(event, formData) {
+    const expandedData = foundry.utils.expandObject(formData);
+
+    await ToDoListData.updateUserToDos(this.options.userId, expandedData);
+
+    this.render();
+  }
 }
-  
