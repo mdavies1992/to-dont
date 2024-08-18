@@ -153,4 +153,4 @@ class ToDoListConfig extends FormApplication {
 
     this.render();
   }
-}
+};

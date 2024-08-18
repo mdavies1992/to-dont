@@ -1,5 +1,6 @@
 <form>
   <ul class="todo-list flexcol">
+    <h3>Your To-Do List:</h3>
     {{#each todos}}
     <li class="flexrow" data-todo-id="{{id}}">
       <input type="checkbox" name="{{id}}.isDone" title="{{localize "TODO-LIST.mark-done"}}" data-dtype="Boolean" {{checked isDone}} />
