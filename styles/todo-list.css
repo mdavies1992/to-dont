@@ -13,7 +13,7 @@
   
   .todo-list-icon-button:hover, .todo-list-icon-button:focus {
     box-shadow: none;
-    text-shadow: 0 0 8px rgb(220, 227, 38);
+    text-shadow: 0 0 8px rgb(49, 169, 53);
   }
 
   .todo-list {
